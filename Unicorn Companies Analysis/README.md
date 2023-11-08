@@ -7,7 +7,7 @@ You have been asked to support an investment firm by analyzing trends in high-gr
 ### Data : 
 Given Unicorn Database that contains 4 tables :
 - dates
-- fundings
+- funding
 - industries
 - companies
 
@@ -49,7 +49,7 @@ Given Unicorn Database that contains 4 tables :
 ````sql
 SELECT 
   COUNT(DISTINCT company_id) AS unique_companies
-FROM public.companies
+FROM companies
 ````
 <img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/1967c101-89d9-4c3b-b947-1997d39fa6d1">
 <br> <br>
@@ -58,10 +58,62 @@ FROM public.companies
 ````sql
 SELECT 
   COUNT(DISTINCT industry) AS unique_industries
-FROM public.industries
+FROM industries
 ````
 <img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/37f08da4-1407-4109-b97d-d310be2b9c2e">
 <br> <br>
 
-3. 
+3. Find the unicorn company with the highest valuation?
+````sql
+SELECT f.company_id,  c.company, f.valuation
+FROM funding AS f
+JOIN companies AS c ON f.company_id = c.company_id
+ORDER BY f.valuation DESC
+LIMIT 1;
+````
+<img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/ec1734b5-f44b-42f4-830a-90dffd02562d">
+<br> <br>
 
+4. Distribution of unicorn companies over industries?
+````sql
+SELECT industry,
+       COUNT(DISTINCT company_id) AS num_unicorns
+FROM industries
+GROUP BY industry
+ORDER BY num_unicorns DESC;
+````
+<img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/64428cbf-7e19-4193-89ec-649f9ec1d181">
+<br> <br>
+
+5. Calculate the total funding raised each year?
+````sql
+SELECT EXTRACT(YEAR FROM date_joined) AS funding_year,
+       SUM(funding) AS total_funding_amount
+FROM dates
+JOIN funding ON dates.company_id = funding.company_id
+GROUP BY funding_year
+ORDER BY funding_year;
+````
+<img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/fba6c07b-03e3-4de6-acd4-67b449081ed7">
+<br> <br>
+
+6. Distribution of unicorn companies over industries?
+````sql
+SELECT EXTRACT(YEAR FROM date_joined) AS joining_year,
+       COUNT(DISTINCT company_id) AS num_unicorns
+FROM dates
+GROUP BY joining_year
+ORDER BY joining_year;
+````
+<img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/72b6e692-2861-45e1-aafb-8d672d089d21">
+<br> <br>
+
+7. Find the countries with the most unicorn companies?
+````sql
+SELECT country, COUNT(DISTINCT company_id) AS num_unicorns
+FROM companies
+GROUP BY country
+ORDER BY num_unicorns DESC;
+````
+<img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/272e4527-124d-43da-a6e8-f822931235bb">
+<br> <br>
