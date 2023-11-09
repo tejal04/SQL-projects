@@ -15,4 +15,4 @@ Questions to be answered through data analysis using SQL :
 - It contains both national and regional debt statistics for several countries across the globe as recorded from 1970 to 2015.
 
 ### Solution
-Check out Notebook for analysis on the data. [Click Here]()
+Check out Notebook for analysis on the data. [Click Here](https://github.com/tejal04/SQLprojects/blob/main/International%20Debt%20Analysis/InternationalDebtStats.ipynb)
