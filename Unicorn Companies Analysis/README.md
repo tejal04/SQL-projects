@@ -149,4 +149,79 @@ ORDER BY num_unicorns DESC;
 <img width="488" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/c843a7b9-0dc1-48c6-8d5e-9dfca2169bff">
 <br> <br>
 
+### Solution :
+- Finding top industries for recent unicorn companies (year : 2020-2022)
+````sql
+SELECT i.industry, 
+        COUNT(i.*)
+    FROM industries AS i
+    INNER JOIN dates AS d
+        ON i.company_id = d.company_id
+    WHERE EXTRACT(year FROM d.date_joined) in ('2020', '2021', '2022')
+    GROUP BY industry
+    ORDER BY count DESC
+````
+<img width="769" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/d9802a4d-649d-433c-a4c2-dffdf95c9cad">
+<br> <br>
+
+- Finding avg year valuation for every industry in the recent years (year : 2020-2022)
+````sql
+SELECT  i.industry,
+		EXTRACT(year FROM d.date_joined) AS year,
+		COUNT(i.*) AS num_unicorns,
+        AVG(f.valuation) AS average_valuation
+    FROM industries AS i
+    INNER JOIN dates AS d
+        ON i.company_id = d.company_id
+    INNER JOIN funding AS f
+        ON d.company_id = f.company_id
+	WHERE EXTRACT(year FROM d.date_joined) in ('2020', '2021', '2022')
+    GROUP BY industry, year
+	ORDER BY num_unicorns DESC;
+````
+<img width="769" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/fad275d0-e849-49b0-bca9-ad4e26812ffd">
+<br> <br>
+
+- Final Solution combining above results
+````sql
+WITH top_industries AS
+(
+    SELECT i.industry, 
+        COUNT(i.*)
+    FROM industries AS i
+    INNER JOIN dates AS d
+        ON i.company_id = d.company_id
+    WHERE EXTRACT(year FROM d.date_joined) in ('2020', '2021', '2022')
+    GROUP BY industry
+    ORDER BY count DESC
+    LIMIT 3
+),
+
+yearly_rankings AS 
+(
+    SELECT COUNT(i.*) AS num_unicorns,
+        i.industry,
+        EXTRACT(year FROM d.date_joined) AS year,
+        AVG(f.valuation) AS average_valuation
+    FROM industries AS i
+    INNER JOIN dates AS d
+        ON i.company_id = d.company_id
+    INNER JOIN funding AS f
+        ON d.company_id = f.company_id
+    GROUP BY industry, year
+)
+
+SELECT industry,
+    year,
+    num_unicorns,
+    ROUND(AVG(average_valuation / 1000000000), 2) AS average_valuation_billions
+FROM yearly_rankings
+WHERE year in ('2020', '2021', '2022')
+    AND industry in (SELECT industry
+                    FROM top_industries)
+GROUP BY industry, num_unicorns, year
+ORDER BY year DESC, num_unicorns DESC
+````
+<img width="774" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/79c668cd-90e0-4a08-9365-8dc05f46fa22">
+<br> <br>
 
