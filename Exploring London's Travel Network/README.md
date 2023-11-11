@@ -23,3 +23,15 @@ The data has been loaded into a Snowflake database called TFL with a single tabl
 | `REPORT_DATE` | Date that the data was reported | `DATE` |
 | `JOURNEY_TYPE` | Method of transport used | `VARCHAR` |
 | `JOURNEYS_MILLIONS` | Millions of journeys, measured in decimals | `FLOAT` |
+
+### Analysis
+
+1. Distribution of journeys over different transportation
+````sql
+SELECT JOURNEY_TYPE, 
+	SUM(JOURNEYS_MILLIONS) as TOTAL_JOURNEYS_MILLIONS
+FROM TFL.JOURNEYS
+GROUP BY JOURNEY_TYPE
+ORDER BY TOTAL_JOURNEYS_MILLIONS DESC;
+````
+3. 
