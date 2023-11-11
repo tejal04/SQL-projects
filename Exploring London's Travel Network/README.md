@@ -34,4 +34,13 @@ FROM TFL.JOURNEYS
 GROUP BY JOURNEY_TYPE
 ORDER BY TOTAL_JOURNEYS_MILLIONS DESC;
 ````
-3. 
+<img width="1033" alt="image" src="https://github.com/tejal04/SQLprojects/assets/24776826/b2630c7c-8cd3-45d9-9f18-2d22aeb98fc7">
+
+Insights :
+- Buses are by far the most utilized mode of transportation, with a total of over 24,905 million journeys. This highlights the central role of buses in London's public transport system, likely due to their extensive coverage and accessibility.
+- The "Underground & DLR" category has the second-highest total journeys. This mode is often a backbone for commuting within the city.
+- The "Overground" category has a considerable number of journeys but less compared to above two, probably because of its limited coverage.
+- "TfL Rail" and "Tram" services have lower total journeys compared to other modes, indicating that these modes may serve specific purposes or have more limited coverage.
+- The "Emirates Airline" has the lowest total journeys as it is expensive and not suitable for local transport.
+  <br><br>
+2. 
